@@ -1,0 +1,41 @@
+### Login Fresh
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "pari@example.com",
+  "password": "123456"
+}
+### Create Post
+POST http://localhost:5000/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMTE0ODExOTIxZjY2NzEyMDIwYmEzYyIsImlhdCI6MTc3OTUxODQzMCwiZXhwIjoxNzgwMTIzMjMwfQ.sjnm2xqIrEL6AdixG3eEhkE_C_7zb_sBrJmnv4RdGYY
+
+{
+  "content": "Hello world! This is my first post 🚀"
+}
+
+### Get All Posts
+GET http://localhost:5000/api/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMTE0ODExOTIxZjY2NzEyMDIwYmEzYyIsImlhdCI6MTc3OTUxODQzMCwiZXhwIjoxNzgwMTIzMjMwfQ.sjnm2xqIrEL6AdixG3eEhkE_C_7zb_sBrJmnv4RdGYY
+
+### Get Single Post (paste a real post _id below)
+GET http://localhost:5000/api/posts/6a114c1fff0fbc6be4756c98
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMTE0ODExOTIxZjY2NzEyMDIwYmEzYyIsImlhdCI6MTc3OTUxODQzMCwiZXhwIjoxNzgwMTIzMjMwfQ.sjnm2xqIrEL6AdixG3eEhkE_C_7zb_sBrJmnv4RdGYY
+
+### Add Comment
+POST http://localhost:5000/api/posts/6a114c1fff0fbc6be4756c98/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMTE0ODExOTIxZjY2NzEyMDIwYmEzYyIsImlhdCI6MTc3OTUxODQzMCwiZXhwIjoxNzgwMTIzMjMwfQ.sjnm2xqIrEL6AdixG3eEhkE_C_7zb_sBrJmnv4RdGYY
+
+{
+  "content": "Nice post Pari!"
+}
+
+### Get Comments
+GET http://localhost:5000/api/posts/6a114c1fff0fbc6be4756c98/comments
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMTE0ODExOTIxZjY2NzEyMDIwYmEzYyIsImlhdCI6MTc3OTUxODQzMCwiZXhwIjoxNzgwMTIzMjMwfQ.sjnm2xqIrEL6AdixG3eEhkE_C_7zb_sBrJmnv4RdGYY
+
+### Test root
+GET http://localhost:5000/api/auth/me
