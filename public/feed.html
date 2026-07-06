@@ -1592,7 +1592,7 @@
       // ── Load profile stats ──
       async function loadProfile() {
         try {
-          const res = await fetch('http://localhost:5000/api/auth/me', {
+          const res = await fetch('/api/auth/me', {
             headers: { Authorization: 'Bearer ' + token },
           });
           if (!res.ok) return;
@@ -1614,7 +1614,7 @@
         container.innerHTML =
           '<div class="loading"><div class="loading-spinner"></div>Loading posts...</div>';
         try {
-          const res = await fetch('http://localhost:5000/api/posts', {
+          const res = await fetch('/api/posts', {
             headers: { Authorization: 'Bearer ' + token },
           });
           if (!res.ok) throw new Error('Failed ' + res.status);
@@ -1719,7 +1719,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
         btn.innerHTML = `<svg class="ico ico-sm" style="stroke:white"><use href="#i-send"/></svg> Posting...`;
 
         try {
-          const res = await fetch('http://localhost:5000/api/posts', {
+          const res = await fetch('/api/posts', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -1753,7 +1753,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
         const isLiked = btn.classList.contains('liked');
         try {
           const res = await fetch(
-            `http://localhost:5000/api/posts/${postId}/like`,
+            `/api/posts/${postId}/like`,
             {
               method: isLiked ? 'DELETE' : 'POST',
               headers: { Authorization: 'Bearer ' + token },
@@ -1780,7 +1780,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
       async function loadComments(postId) {
         try {
           const res = await fetch(
-            `http://localhost:5000/api/posts/${postId}/comments`,
+            `/api/posts/${postId}/comments`,
             {
               headers: { Authorization: 'Bearer ' + token },
             }
@@ -1810,7 +1810,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
         if (!content) return;
         try {
           const res = await fetch(
-            `http://localhost:5000/api/posts/${postId}/comments`,
+            `/api/posts/${postId}/comments`,
             {
               method: 'POST',
               headers: {
@@ -1831,7 +1831,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
       async function deletePost(postId) {
         if (!confirm('Delete this post?')) return;
         try {
-          const res = await fetch(`http://localhost:5000/api/posts/${postId}`, {
+          const res = await fetch(`/api/posts/${postId}`, {
             method: 'DELETE',
             headers: { Authorization: 'Bearer ' + token },
           });
@@ -1852,7 +1852,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
         const container = document.getElementById('suggestUsers');
         try {
           const res = await fetch(
-            'http://localhost:5000/api/users/suggestions',
+            '/api/users/suggestions',
             {
               headers: { Authorization: 'Bearer ' + token },
             }
@@ -1891,7 +1891,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
       async function followUser(userId, btn) {
         try {
           const res = await fetch(
-            `http://localhost:5000/api/users/${userId}/follow`,
+            `/api/users/${userId}/follow`,
             {
               method: 'POST',
               headers: { Authorization: 'Bearer ' + token },
@@ -1927,8 +1927,8 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
           const userId = myProfileData?._id || user._id;
           const endpoint =
             type === 'followers'
-              ? `http://localhost:5000/api/users/${userId}/followers`
-              : `http://localhost:5000/api/users/${userId}/following`;
+              ? `/api/users/${userId}/followers`
+              : `/api/users/${userId}/following`;
 
           const res = await fetch(endpoint, {
             headers: { Authorization: 'Bearer ' + token },
@@ -1978,7 +1978,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
       async function followFromModal(userId, btn) {
         try {
           const res = await fetch(
-            `http://localhost:5000/api/users/${userId}/follow`,
+            `/api/users/${userId}/follow`,
             {
               method: 'POST',
               headers: { Authorization: 'Bearer ' + token },
@@ -2012,7 +2012,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
         searchTimer = setTimeout(async () => {
           try {
             const res = await fetch(
-              `http://localhost:5000/api/users?search=${encodeURIComponent(query)}`,
+              `/api/users?search=${encodeURIComponent(query)}`,
               {
                 headers: { Authorization: 'Bearer ' + token },
               }
@@ -2050,7 +2050,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
       async function followFromSearch(userId, btn) {
         try {
           const res = await fetch(
-            `http://localhost:5000/api/users/${userId}/follow`,
+            `/api/users/${userId}/follow`,
             {
               method: 'POST',
               headers: { Authorization: 'Bearer ' + token },
@@ -2105,7 +2105,7 @@ ${post.image ? `<img class="post-image" src="${post.image}" alt="post" onclick="
       async function loadTrending() {
         const container = document.getElementById('trendingContainer');
         try {
-          const res = await fetch('http://localhost:5000/api/posts/trending', {
+          const res = await fetch('/api/posts/trending', {
             headers: { Authorization: 'Bearer ' + token },
           });
           if (!res.ok) throw new Error();

@@ -914,7 +914,7 @@
       async function loadProfileInfo() {
         try {
           const res = await fetch(
-            `http://localhost:5000/api/users/id/${profileUserId}`,
+            `/api/users/id/${profileUserId}`,
             {
               headers: { Authorization: 'Bearer ' + token },
             }
@@ -972,7 +972,7 @@
       async function checkFollowStatus() {
         try {
           const res = await fetch(
-            `http://localhost:5000/api/users/${profileUserId}/isfollowing`,
+            `/api/users/${profileUserId}/isfollowing`,
             {
               headers: { Authorization: 'Bearer ' + token },
             }
@@ -1004,7 +1004,7 @@
         const method = isFollowing ? 'DELETE' : 'POST';
         try {
           const res = await fetch(
-            `http://localhost:5000/api/users/${profileUserId}/follow`,
+            `/api/users/${profileUserId}/follow`,
             {
               method,
               headers: { Authorization: 'Bearer ' + token },
@@ -1026,7 +1026,7 @@
           '<div class="loading" style="grid-column:1/-1"><div class="loading-spinner"></div></div>';
         try {
           const res = await fetch(
-            `http://localhost:5000/api/posts/user/${profileUserId}`,
+            `/api/posts/user/${profileUserId}`,
             {
               headers: { Authorization: 'Bearer ' + token },
             }
@@ -1073,7 +1073,7 @@
           '<div class="loading"><div class="loading-spinner"></div></div>';
         try {
           const res = await fetch(
-            `http://localhost:5000/api/users/${profileUserId}/followers`,
+            `/api/users/${profileUserId}/followers`,
             {
               headers: { Authorization: 'Bearer ' + token },
             }
@@ -1112,7 +1112,7 @@
           '<div class="loading"><div class="loading-spinner"></div></div>';
         try {
           const res = await fetch(
-            `http://localhost:5000/api/users/${profileUserId}/following`,
+            `/api/users/${profileUserId}/following`,
             {
               headers: { Authorization: 'Bearer ' + token },
             }
@@ -1147,7 +1147,7 @@
       async function quickFollow(userId, btn) {
         try {
           const res = await fetch(
-            `http://localhost:5000/api/users/${userId}/follow`,
+            `/api/users/${userId}/follow`,
             {
               method: 'POST',
               headers: { Authorization: 'Bearer ' + token },
