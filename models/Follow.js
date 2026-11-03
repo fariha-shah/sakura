@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('./User');
 
 const followSchema = new mongoose.Schema(
   {
@@ -16,7 +17,6 @@ const followSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Prevent duplicate follows
 followSchema.index({ follower: 1, following: 1 }, { unique: true });
 
 module.exports = mongoose.model('Follow', followSchema);

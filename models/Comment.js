@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+require('./User');
+require('./Post');
 
 const commentSchema = new mongoose.Schema(
   {
@@ -15,7 +17,7 @@ const commentSchema = new mongoose.Schema(
     content: {
       type: String,
       required: true,
-      maxlength: 300,
+      maxlength: 500,
     },
   },
   { timestamps: true }

@@ -4,7 +4,7 @@ const Follow = require('../models/Follow');
 // ─── GET USER PROFILE BY USERNAME ───────────────────────
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.params.username }).select(
+    const user = await User.findOne({ username: req.params.username.toLowerCase() }).select(
       '-password'
     );
 
@@ -18,18 +18,41 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+// ─── GET USER BY ID ───────────────────────────────────────
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // ─── UPDATE YOUR OWN PROFILE ────────────────────────────
 const updateProfile = async (req, res) => {
   try {
-    const { fullName, bio } = req.body;
+    const { fullName, bio, profilePicture, coverPhoto } = req.body;
     const user = await User.findById(req.user._id);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    if (fullName) user.fullName = fullName;
-    if (bio !== undefined) user.bio = bio;
+    if (fullName !== undefined && fullName.trim() !== '') {
+      user.fullName = fullName.trim();
+    }
+    if (bio !== undefined) {
+      user.bio = bio.trim();
+    }
+    if (profilePicture !== undefined) {
+      user.profilePicture = profilePicture;
+    }
+    if (coverPhoto !== undefined) {
+      user.coverPhoto = coverPhoto;
+    }
 
     const updatedUser = await user.save();
 
@@ -40,8 +63,10 @@ const updateProfile = async (req, res) => {
       fullName: updatedUser.fullName,
       bio: updatedUser.bio,
       profilePicture: updatedUser.profilePicture,
+      coverPhoto: updatedUser.coverPhoto,
       followersCount: updatedUser.followersCount,
       followingCount: updatedUser.followingCount,
+      bookmarks: updatedUser.bookmarks,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -51,18 +76,21 @@ const updateProfile = async (req, res) => {
 // ─── SEARCH USERS ────────────────────────────────────────
 const searchUsers = async (req, res) => {
   try {
-    const keyword = req.query.search
-      ? {
-          $or: [
-            { username: { $regex: req.query.search, $options: 'i' } },
-            { fullName: { $regex: req.query.search, $options: 'i' } },
-          ],
-        }
-      : {};
+    const search = req.query.search;
+    if (!search || !search.trim()) {
+      return res.json([]);
+    }
+
+    const keyword = {
+      $or: [
+        { username: { $regex: search.trim(), $options: 'i' } },
+        { fullName: { $regex: search.trim(), $options: 'i' } },
+      ],
+    };
 
     const users = await User.find({
       ...keyword,
-      _id: { $ne: req.user._id }, // exclude yourself
+      _id: { $ne: req.user._id },
     })
       .select('-password')
       .limit(10);
@@ -76,30 +104,19 @@ const searchUsers = async (req, res) => {
 // ─── GET SUGGESTIONS (unfollowed users only) ─────────────
 const getSuggestions = async (req, res) => {
   try {
-    // Get all people I already follow
     const following = await Follow.find({ follower: req.user._id });
     const followingIds = following.map((f) => f.following);
 
-    // Find users I don't follow + not myself
     const suggestions = await User.find({
       _id: {
         $nin: [...followingIds, req.user._id],
       },
     })
       .select('-password')
-      .limit(5);
+      .sort({ followersCount: -1, createdAt: -1 })
+      .limit(8);
 
     res.json(suggestions);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-// ─── GET USER BY ID ───────────────────────────────────────
-const getUserById = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id).select('-password');
-    if (!user) return res.status(404).json({ message: 'User not found' });
-    res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -107,8 +124,8 @@ const getUserById = async (req, res) => {
 
 module.exports = {
   getUserProfile,
+  getUserById,
   updateProfile,
   searchUsers,
   getSuggestions,
-  getUserById,
 };

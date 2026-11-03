@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('./User');
 
 const postSchema = new mongoose.Schema(
   {
@@ -9,8 +10,8 @@ const postSchema = new mongoose.Schema(
     },
     content: {
       type: String,
-      required: false, // ← required: true se false karo
-      maxlength: 500,
+      required: false,
+      maxlength: 1000,
       default: '',
     },
     image: {

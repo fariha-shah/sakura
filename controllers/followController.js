@@ -1,5 +1,6 @@
 const Follow = require('../models/Follow');
 const User = require('../models/User');
+const Notification = require('../models/Notification');
 
 // ─── FOLLOW USER ──────────────────────────────────────────
 const followUser = async (req, res) => {
@@ -40,9 +41,22 @@ const followUser = async (req, res) => {
       $inc: { followersCount: 1 },
     });
 
-    res
-      .status(201)
-      .json({ message: `You are now following ${userToFollow.username}` });
+    // Create notification
+    try {
+      await Notification.create({
+        recipient: req.params.id,
+        sender: req.user._id,
+        type: 'follow',
+        text: 'started following you',
+      });
+    } catch (notifErr) {
+      console.error('Notification error:', notifErr.message);
+    }
+
+    res.status(201).json({
+      message: `You are now following ${userToFollow.username}`,
+      isFollowing: true,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -77,7 +91,7 @@ const unfollowUser = async (req, res) => {
     // Delete follow record
     await followRecord.deleteOne();
 
-    // Update counts
+    // Update counts (prevent negative)
     await User.findByIdAndUpdate(req.user._id, {
       $inc: { followingCount: -1 },
     });
@@ -85,7 +99,10 @@ const unfollowUser = async (req, res) => {
       $inc: { followersCount: -1 },
     });
 
-    res.json({ message: `You unfollowed ${userToUnfollow.username}` });
+    res.json({
+      message: `You unfollowed ${userToUnfollow.username}`,
+      isFollowing: false,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -96,10 +113,10 @@ const getFollowers = async (req, res) => {
   try {
     const followers = await Follow.find({ following: req.params.id }).populate(
       'follower',
-      'username fullName profilePicture'
+      'username fullName profilePicture bio'
     );
 
-    res.json(followers.map((f) => f.follower));
+    res.json(followers.map((f) => f.follower).filter(Boolean));
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -110,14 +127,15 @@ const getFollowing = async (req, res) => {
   try {
     const following = await Follow.find({ follower: req.params.id }).populate(
       'following',
-      'username fullName profilePicture'
+      'username fullName profilePicture bio'
     );
 
-    res.json(following.map((f) => f.following));
+    res.json(following.map((f) => f.following).filter(Boolean));
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 // ─── CHECK IF FOLLOWING ───────────────────────────────────
 const checkFollowing = async (req, res) => {
   try {

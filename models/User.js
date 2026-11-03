@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       lowercase: true,
+      trim: true,
     },
     password: {
       type: String,
@@ -24,16 +25,27 @@ const userSchema = new mongoose.Schema(
     fullName: {
       type: String,
       required: true,
+      trim: true,
     },
     bio: {
       type: String,
       default: '',
-      maxlength: 160,
+      maxlength: 200,
     },
     profilePicture: {
       type: String,
-      default: 'default-avatar.png',
+      default: '',
     },
+    coverPhoto: {
+      type: String,
+      default: '',
+    },
+    bookmarks: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post',
+      },
+    ],
     followersCount: {
       type: Number,
       default: 0,

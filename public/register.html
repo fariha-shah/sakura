@@ -2,537 +2,524 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sakura — Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Sakura — Create Account</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&display=swap"
       rel="stylesheet"
     />
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="/css/sakura-theme.css" />
     <style>
-      :root {
-        --pink: #f472b6;
-        --pink-light: #fce7f3;
-        --pink-deep: #db2777;
-        --pink-soft: #fff0f6;
-        --white: #ffffff;
-        --gray: #6b7280;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
       body {
-        font-family: 'DM Sans', sans-serif;
-        background: var(--pink-soft);
-        min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        overflow: hidden;
+        min-height: 100vh;
+        padding: 20px;
         position: relative;
+        overflow-x: hidden;
       }
+
       .blob {
         position: fixed;
         border-radius: 50%;
-        filter: blur(60px);
-        opacity: 0.5;
-        animation: blobFloat 8s ease-in-out infinite;
+        filter: blur(80px);
+        opacity: 0.35;
         pointer-events: none;
         z-index: 0;
+        animation: blobFloat 12s ease-in-out infinite alternate;
       }
+
       .blob-1 {
-        width: 500px;
-        height: 500px;
-        background: #f9a8d4;
-        top: -150px;
-        left: -100px;
+        width: 450px;
+        height: 450px;
+        background: #f472b6;
+        top: -100px;
+        right: -100px;
       }
+
       .blob-2 {
         width: 400px;
         height: 400px;
-        background: #fda4af;
-        bottom: -100px;
-        right: -100px;
-        animation-delay: -3s;
+        background: #db2777;
+        bottom: -80px;
+        left: -80px;
+        animation-delay: -5s;
       }
+
       @keyframes blobFloat {
-        0%,
-        100% {
-          transform: translate(0, 0) scale(1);
-        }
-        50% {
-          transform: translate(15px, -15px) scale(1.05);
-        }
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(30px, -30px) scale(1.08); }
       }
-      .petal {
-        position: fixed;
-        width: 10px;
-        height: 10px;
-        background: linear-gradient(135deg, #fce7f3, #f9a8d4);
-        border-radius: 0 50% 50% 50%;
-        opacity: 0.7;
-        animation: petalFall linear infinite;
-        pointer-events: none;
-        z-index: 1;
-      }
-      @keyframes petalFall {
-        0% {
-          transform: translateY(-20px) rotate(0deg);
-          opacity: 0.8;
-        }
-        100% {
-          transform: translateY(110vh) rotate(720deg);
-          opacity: 0;
-        }
-      }
-      .container {
+
+      .auth-card {
+        width: 100%;
+        max-width: 920px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        display: grid;
+        grid-template-columns: 1fr 1.25fr;
+        overflow: hidden;
         position: relative;
         z-index: 10;
-        display: flex;
-        width: 960px;
-        border-radius: 32px;
-        overflow: hidden;
-        box-shadow:
-          0 40px 100px rgba(244, 114, 182, 0.3),
-          0 0 0 1px rgba(255, 255, 255, 0.6);
-        animation: containerReveal 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
       }
-      @keyframes containerReveal {
-        from {
-          opacity: 0;
-          transform: translateY(40px) scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
+
+      @keyframes scaleUp {
+        from { opacity: 0; transform: scale(0.96) translateY(12px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
       }
-      .left-panel {
-        width: 38%;
-        background: linear-gradient(145deg, #f472b6, #db2777);
-        padding: 52px 40px;
+
+      .auth-art-panel {
+        background: linear-gradient(135deg, rgba(252, 231, 243, 0.7) 0%, rgba(244, 114, 182, 0.4) 100%);
+        border-right: 1px solid var(--border-color);
+        padding: 48px 36px;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         position: relative;
         overflow: hidden;
       }
-      .left-panel::before {
-        content: '';
-        position: absolute;
-        width: 280px;
-        height: 280px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 50%;
-        top: -100px;
-        right: -80px;
+
+      [data-theme="dark"] .auth-art-panel {
+        background: linear-gradient(135deg, rgba(30, 27, 46, 0.8) 0%, rgba(55, 32, 69, 0.6) 100%);
       }
-      .brand {
-        text-align: center;
-        position: relative;
-        z-index: 2;
-      }
-      .brand-icon-wrap {
-        width: 68px;
-        height: 68px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 14px;
-        animation: iconBounce 3s ease-in-out infinite;
-        backdrop-filter: blur(4px);
-      }
-      @keyframes iconBounce {
-        0%,
-        100% {
-          transform: translateY(0) rotate(-5deg);
-        }
-        50% {
-          transform: translateY(-8px) rotate(5deg);
-        }
-      }
-      .brand-name {
-        font-family: 'Playfair Display', serif;
-        font-size: 40px;
-        font-weight: 700;
-        color: white;
-      }
-      .brand-tagline {
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 13px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin-top: 6px;
-      }
-      .perks {
-        margin-top: 48px;
-        position: relative;
-        z-index: 2;
-        width: 100%;
-      }
-      .perk {
+
+      .art-brand {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 12px 16px;
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 14px;
-        margin-bottom: 10px;
-        backdrop-filter: blur(10px);
-        color: white;
-        font-size: 13px;
-        font-weight: 500;
-        animation: perkSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-      }
-      .perk:nth-child(1) {
-        animation-delay: 0.3s;
-      }
-      .perk:nth-child(2) {
-        animation-delay: 0.45s;
-      }
-      .perk:nth-child(3) {
-        animation-delay: 0.6s;
-      }
-      @keyframes perkSlide {
-        from {
-          opacity: 0;
-          transform: translateX(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-      .perk svg {
-        width: 18px;
-        height: 18px;
-        flex-shrink: 0;
-      }
-      .right-panel {
-        width: 62%;
-        background: rgba(255, 255, 255, 0.93);
-        backdrop-filter: blur(20px);
-        padding: 48px 52px;
-      }
-      .form-title {
         font-family: 'Playfair Display', serif;
-        font-size: 30px;
+        font-size: 26px;
         font-weight: 700;
-        color: #1f2937;
-        margin-bottom: 4px;
+        color: var(--pink-600);
       }
-      .form-subtitle {
-        color: var(--gray);
+
+      [data-theme="dark"] .art-brand {
+        color: var(--pink-300);
+      }
+
+      .art-illustration {
+        margin: 32px 0;
+        text-align: center;
+      }
+
+      .art-circle {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        background: var(--pink-gradient);
+        box-shadow: var(--sakura-glow);
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 54px;
+        animation: pulse 3s infinite ease-in-out;
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); box-shadow: var(--sakura-glow); }
+        50% { transform: scale(1.05); box-shadow: 0 12px 36px rgba(244, 114, 182, 0.6); }
+      }
+
+      .art-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 8px;
+      }
+
+      .art-desc {
         font-size: 14px;
-        margin-bottom: 32px;
+        color: var(--text-muted);
+        line-height: 1.5;
       }
-      .form-subtitle a {
-        color: var(--pink-deep);
+
+      .art-quote {
+        font-size: 12.5px;
+        color: var(--text-subtle);
+        font-style: italic;
+      }
+
+      .auth-form-panel {
+        padding: 44px 38px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .form-header {
+        margin-bottom: 24px;
+      }
+
+      .form-heading {
+        font-family: 'Playfair Display', serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-main);
+        margin-bottom: 6px;
+      }
+
+      .form-subheading {
+        font-size: 14px;
+        color: var(--text-muted);
+      }
+
+      .form-subheading a {
+        color: var(--pink-600);
+        font-weight: 600;
         text-decoration: none;
-        font-weight: 500;
       }
-      .form-row {
+
+      [data-theme="dark"] .form-subheading a {
+        color: var(--pink-400);
+      }
+
+      .form-row-2 {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 16px;
+        gap: 14px;
       }
-      .input-group {
-        margin-bottom: 18px;
-        animation: inputReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+      .input-field-group {
+        margin-bottom: 16px;
       }
-      .input-group:nth-child(1) {
-        animation-delay: 0.15s;
-      }
-      .input-group:nth-child(2) {
-        animation-delay: 0.25s;
-      }
-      .input-group:nth-child(3) {
-        animation-delay: 0.35s;
-      }
-      .input-group:nth-child(4) {
-        animation-delay: 0.45s;
-      }
-      @keyframes inputReveal {
-        from {
-          opacity: 0;
-          transform: translateY(16px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+
       .input-label {
         display: block;
         font-size: 13px;
-        font-weight: 500;
-        color: #374151;
-        margin-bottom: 7px;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 6px;
       }
-      .input-wrapper {
+
+      .input-wrap {
         position: relative;
-      }
-      .input-icon {
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #d1d5db;
-        pointer-events: none;
         display: flex;
         align-items: center;
       }
-      .input-icon svg {
-        width: 16px;
-        height: 16px;
+
+      .input-icon {
+        position: absolute;
+        left: 14px;
+        color: var(--text-subtle);
+        display: flex;
+        align-items: center;
+        pointer-events: none;
       }
-      input {
+
+      .auth-input {
         width: 100%;
-        padding: 13px 14px 13px 42px;
-        border: 2px solid #fce7f3;
-        border-radius: 13px;
-        font-size: 14px;
-        font-family: 'DM Sans', sans-serif;
-        color: #1f2937;
-        background: #fff;
-        transition: all 0.3s ease;
+        background: var(--bg-input);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 11px 14px 11px 42px;
+        font-family: inherit;
+        font-size: 14.5px;
+        color: var(--text-main);
         outline: none;
+        transition: var(--transition);
       }
-      input:focus {
-        border-color: var(--pink);
-        box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.1);
-        transform: translateY(-1px);
+
+      .auth-input:focus {
+        border-color: var(--pink-500);
+        box-shadow: 0 0 0 3px rgba(244, 114, 182, 0.2);
+        background: var(--bg-card-subtle);
       }
-      input::placeholder {
-        color: #d1d5db;
-      }
-      .terms {
-        font-size: 13px;
-        color: var(--gray);
-        margin-bottom: 24px;
-        line-height: 1.5;
-      }
-      .terms a {
-        color: var(--pink-deep);
-        text-decoration: none;
-        font-weight: 500;
-      }
-      .btn-register {
-        width: 100%;
-        padding: 15px;
-        background: linear-gradient(135deg, #f472b6, #db2777);
-        color: white;
+
+      .btn-toggle-pwd {
+        position: absolute;
+        right: 12px;
+        background: none;
         border: none;
-        border-radius: 14px;
-        font-size: 15px;
-        font-weight: 600;
-        font-family: 'DM Sans', sans-serif;
+        color: var(--text-subtle);
         cursor: pointer;
-        transition: all 0.3s;
-        box-shadow: 0 8px 24px rgba(244, 114, 182, 0.4);
+        padding: 4px;
+      }
+
+      .btn-auth-submit {
+        width: 100%;
+        padding: 13px;
+        border-radius: var(--radius-md);
+        background: var(--pink-gradient);
+        color: white;
+        font-family: inherit;
+        font-size: 15px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        box-shadow: var(--sakura-glow);
+        transition: var(--transition);
+        margin-top: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
       }
-      .btn-register svg {
-        width: 18px;
-        height: 18px;
-      }
-      .btn-register:hover {
+
+      .btn-auth-submit:hover:not(:disabled) {
         transform: translateY(-2px);
         box-shadow: 0 12px 32px rgba(244, 114, 182, 0.5);
       }
-      .login-link {
+
+      .btn-auth-submit:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
+
+      .auth-footer {
         text-align: center;
         margin-top: 20px;
-        font-size: 14px;
-        color: var(--gray);
+        font-size: 13.5px;
+        color: var(--text-muted);
       }
-      .login-link a {
-        color: var(--pink-deep);
+
+      .auth-footer a {
+        color: var(--pink-600);
         font-weight: 600;
         text-decoration: none;
       }
-      .error-msg {
-        background: #fee2e2;
-        color: #dc2626;
-        padding: 10px 14px;
-        border-radius: 10px;
-        font-size: 13px;
-        margin-bottom: 16px;
-        display: none;
-        align-items: center;
-        gap: 8px;
+
+      [data-theme="dark"] .auth-footer a {
+        color: var(--pink-400);
       }
-      .error-msg svg {
-        width: 16px;
-        height: 16px;
-        flex-shrink: 0;
+
+      .top-theme-btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
       }
-      .success-msg {
-        background: #d1fae5;
-        color: #065f46;
-        padding: 10px 14px;
-        border-radius: 10px;
-        font-size: 13px;
-        margin-bottom: 16px;
-        display: none;
-        align-items: center;
-        gap: 8px;
-      }
-      .success-msg svg {
-        width: 16px;
-        height: 16px;
-        flex-shrink: 0;
+
+      @media (max-width: 768px) {
+        .auth-card {
+          grid-template-columns: 1fr;
+          max-width: 440px;
+        }
+        .auth-art-panel {
+          padding: 28px 24px 20px;
+          text-align: center;
+          align-items: center;
+          border-right: none;
+          border-bottom: 1px solid var(--border-color);
+        }
+        .art-illustration {
+          display: none;
+        }
+        .art-quote {
+          display: none;
+        }
+        .auth-form-panel {
+          padding: 30px 22px;
+        }
+        .form-row-2 {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+        .form-heading {
+          font-size: 24px;
+        }
       }
     </style>
   </head>
   <body>
+    <!-- Background Blobs -->
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
-    <script>
-      for (let i = 0; i < 10; i++) {
-        const p = document.createElement('div');
-        p.className = 'petal';
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.animationDuration = 6 + Math.random() * 8 + 's';
-        p.style.animationDelay = Math.random() * 8 + 's';
-        document.body.appendChild(p);
-      }
-    </script>
 
-    <div class="container">
-      <div class="left-panel">
-        <div class="brand">
-          <div class="brand-icon-wrap">
-            <i
-              data-lucide="aperture"
-              style="width: 34px; height: 34px; color: white"
-            ></i>
+    <!-- Theme Toggle Floating -->
+    <div class="top-theme-btn">
+      <button class="nav-icon-btn" onclick="toggleTheme()" title="Toggle Theme">
+        <svg class="ico"><use class="theme-icon-use" href="#i-moon" /></svg>
+      </button>
+    </div>
+
+    <!-- Hidden Icons -->
+    <svg style="display: none" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-aperture" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="14.31" y1="8" x2="20.05" y2="17.94"/><line x1="9.69" y1="8" x2="21.17" y2="8"/><line x1="7.38" y1="12" x2="13.12" y2="2.06"/><line x1="9.69" y1="16" x2="3.95" y2="6.06"/><line x1="14.31" y1="16" x2="2.83" y2="16"/><line x1="16.62" y1="12" x2="10.88" y2="21.94"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+      <symbol id="i-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+    </svg>
+
+    <div class="auth-card">
+      <!-- Left Panel -->
+      <div class="auth-art-panel">
+        <div class="art-brand">
+          <div class="nav-brand-icon" style="width: 34px; height: 34px;">
+            <svg class="ico"><use href="#i-aperture" /></svg>
           </div>
-          <div class="brand-name">Sakura</div>
-          <div class="brand-tagline">Connect &amp; Blossom</div>
+          Sakura
         </div>
-        <div class="perks">
-          <div class="perk">
-            <i data-lucide="message-circle"></i> Share your stories
-          </div>
-          <div class="perk">
-            <i data-lucide="heart"></i> Like &amp; comment on posts
-          </div>
-          <div class="perk">
-            <i data-lucide="users"></i> Follow your friends
-          </div>
+
+        <div class="art-illustration">
+          <div class="art-circle">🌸</div>
+          <div class="art-title">Join Sakura</div>
+          <p class="art-desc">Create your profile, share your thoughts, and connect with inspiring creators worldwide.</p>
+        </div>
+
+        <div class="art-quote">
+          "Every great journey begins with a single blossom."
         </div>
       </div>
 
-      <div class="right-panel">
-        <div class="form-title">Join Sakura</div>
-        <div class="form-subtitle">
-          Already have an account? <a href="login.html">Sign in</a>
+      <!-- Right Panel (Form) -->
+      <div class="auth-form-panel">
+        <div class="form-header">
+          <h2 class="form-heading">Create Account</h2>
+          <p class="form-subheading">
+            Already have an account? <a href="login.html">Sign in</a>
+          </p>
         </div>
 
-        <div class="error-msg" id="errorMsg">
-          <i data-lucide="alert-circle"></i>
-          <span id="errorText"></span>
-        </div>
-        <div class="success-msg" id="successMsg">
-          <i data-lucide="check-circle"></i>
-          <span>Account created! Redirecting...</span>
-        </div>
+        <form id="registerForm" onsubmit="event.preventDefault();handleRegister();">
+          <div class="form-row-2">
+            <div class="input-field-group">
+              <label class="input-label" for="regFullName">Full Name</label>
+              <div class="input-wrap">
+                <span class="input-icon"><svg class="ico ico-sm"><use href="#i-user"/></svg></span>
+                <input
+                  type="text"
+                  class="auth-input"
+                  id="regFullName"
+                  placeholder="Your Name"
+                  required
+                />
+              </div>
+            </div>
 
-        <div class="form-row">
-          <div class="input-group">
-            <label class="input-label">Full Name</label>
-            <div class="input-wrapper">
-              <span class="input-icon"><i data-lucide="user"></i></span>
-              <input type="text" id="fullName" placeholder="Your name" />
+            <div class="input-field-group">
+              <label class="input-label" for="regUsername">Username</label>
+              <div class="input-wrap">
+                <span class="input-icon" style="font-weight: 700; font-size: 14px;">@</span>
+                <input
+                  type="text"
+                  class="auth-input"
+                  id="regUsername"
+                  placeholder="username"
+                  required
+                />
+              </div>
             </div>
           </div>
-          <div class="input-group">
-            <label class="input-label">Username</label>
-            <div class="input-wrapper">
-              <span class="input-icon"><i data-lucide="at-sign"></i></span>
-              <input type="text" id="username" placeholder="username" />
+
+          <div class="input-field-group">
+            <label class="input-label" for="regEmail">Email Address</label>
+            <div class="input-wrap">
+              <span class="input-icon"><svg class="ico ico-sm"><use href="#i-mail"/></svg></span>
+              <input
+                type="email"
+                class="auth-input"
+                id="regEmail"
+                placeholder="you@example.com"
+                required
+                autocomplete="email"
+              />
             </div>
           </div>
-        </div>
 
-        <div class="input-group">
-          <label class="input-label">Email Address</label>
-          <div class="input-wrapper">
-            <span class="input-icon"><i data-lucide="mail"></i></span>
-            <input type="email" id="email" placeholder="you@example.com" />
+          <div class="input-field-group">
+            <label class="input-label" for="regPassword">Password</label>
+            <div class="input-wrap">
+              <span class="input-icon"><svg class="ico ico-sm"><use href="#i-lock"/></svg></span>
+              <input
+                type="password"
+                class="auth-input"
+                id="regPassword"
+                placeholder="At least 6 characters"
+                minlength="6"
+                required
+                autocomplete="new-password"
+              />
+              <button type="button" class="btn-toggle-pwd" onclick="togglePasswordVisibility('regPassword')" title="Show/hide password">
+                <svg class="ico ico-sm"><use href="#i-eye"/></svg>
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div class="input-group">
-          <label class="input-label">Password</label>
-          <div class="input-wrapper">
-            <span class="input-icon"><i data-lucide="lock"></i></span>
-            <input
-              type="password"
-              id="password"
-              placeholder="Min 6 characters"
-            />
-          </div>
-        </div>
+          <button type="submit" class="btn-auth-submit" id="btnRegisterSubmit">
+            <span>Create My Account</span>
+          </button>
+        </form>
 
-        <div class="terms">
-          By signing up you agree to our <a href="#">Terms</a> and
-          <a href="#">Privacy Policy</a>
-        </div>
-
-        <button class="btn-register" onclick="handleRegister()">
-          <i data-lucide="user-plus"></i> Create My Account
-        </button>
-        <div class="login-link">
-          Already have an account? <a href="login.html">Sign in</a>
+        <div class="auth-footer">
+          Already a member? <a href="login.html">Sign in here</a>
         </div>
       </div>
     </div>
 
+    <script src="/js/sakura-core.js"></script>
     <script>
-      lucide.createIcons();
+      createPetals(6);
+
+      if (getToken()) {
+        window.location.href = 'feed.html';
+      }
+
+      function togglePasswordVisibility(fieldId) {
+        const input = document.getElementById(fieldId);
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+
       async function handleRegister() {
-        const fullName = document.getElementById('fullName').value;
-        const username = document.getElementById('username').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const errorMsg = document.getElementById('errorMsg');
-        const errorText = document.getElementById('errorText');
-        const successMsg = document.getElementById('successMsg');
-        errorMsg.style.display = 'none';
+        const fullName = document.getElementById('regFullName').value.trim();
+        const username = document.getElementById('regUsername').value.trim().toLowerCase();
+        const email = document.getElementById('regEmail').value.trim().toLowerCase();
+        const password = document.getElementById('regPassword').value;
+
         if (!fullName || !username || !email || !password) {
-          errorText.textContent = 'Please fill in all fields.';
-          errorMsg.style.display = 'flex';
+          showToast('Please fill out all fields', 'error');
           return;
         }
+
+        if (password.length < 6) {
+          showToast('Password must be at least 6 characters', 'error');
+          return;
+        }
+
+        const btn = document.getElementById('btnRegisterSubmit');
+        btn.disabled = true;
+        btn.innerHTML = `<div class="loading-spinner" style="width:16px;height:16px;border-width:2px;margin:0 4px"></div> Creating account...`;
+
         try {
           const res = await fetch('/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ fullName, username, email, password }),
           });
+
           const data = await res.json();
+
           if (res.ok) {
             localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data));
-            successMsg.style.display = 'flex';
-            setTimeout(() => (window.location.href = 'feed.html'), 1500);
+            setUser(data);
+            showToast('Account created! Welcome to Sakura 🌸', 'success');
+            setTimeout(() => {
+              window.location.href = 'feed.html';
+            }, 900);
           } else {
-            errorText.textContent = data.message || 'Registration failed.';
-            errorMsg.style.display = 'flex';
+            showToast(data.message || 'Registration failed', 'error');
           }
-        } catch (err) {
-          errorText.textContent = 'Server error. Make sure backend is running.';
-          errorMsg.style.display = 'flex';
+        } catch (e) {
+          showToast('Server connection failed. Is the backend running?', 'error');
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<span>Create My Account</span>`;
         }
       }
     </script>

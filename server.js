@@ -12,8 +12,8 @@ const app = express();
 
 // ── Core Middleware ──
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ limit: '15mb', extended: true }));
 
 // ── Serve Frontend Static Files ──
 app.use(express.static(path.join(__dirname, 'public')));
@@ -23,22 +23,63 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const followRoutes = require('./routes/followRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/users', followRoutes);
+app.use('/api/notifications', notificationRoutes);
 
-// ── API 404 — only for /api routes ──
-app.use('/api', (req, res) => {
-  res
-    .status(404)
-    .json({ message: `Route ${req.method} ${req.originalUrl} not found` });
+// Health check for deployment platforms (Vercel, Render, Railway, AWS)
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'healthy',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    service: 'Sakura Social API',
+  });
 });
 
-// ── All other routes → serve login.html ──
+// Clean friendly frontend URLs
+app.get('/feed', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'feed.html'));
+});
+
+app.get('/profile', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'profile.html'));
+});
+
+app.get('/user-profile', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'user-profile.html'));
+});
+
+app.get('/user', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'user-profile.html'));
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'login.html'));
+});
+
+app.get('/register', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'register.html'));
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'login.html'));
+});
+
+// ── API 404 handler ──
+app.use('/api', (req, res) => {
+  res.status(404).json({
+    message: `API Route ${req.method} ${req.originalUrl} not found`,
+  });
+});
+
+// ── Catch-all page router ──
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+  res.sendFile(path.resolve(__dirname, 'public', 'login.html'));
 });
 
 // ── Error Handler ──
@@ -49,7 +90,8 @@ app.listen(PORT, () => {
   console.log(`
   🌸 ─────────────────────────────────────
      Sakura Server Running!
-     http://localhost:${PORT}
+     Local: http://localhost:${PORT}
+     Status: Ready for live deployment
   🌸 ─────────────────────────────────────
   `);
 });
