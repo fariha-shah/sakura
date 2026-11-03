@@ -86,12 +86,16 @@ app.use((req, res) => {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`
   🌸 ─────────────────────────────────────
      Sakura Server Running!
      Local: http://localhost:${PORT}
      Status: Ready for live deployment
   🌸 ─────────────────────────────────────
-  `);
-});
+    `);
+  });
+}
+
+module.exports = app;
