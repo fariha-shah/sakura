@@ -474,7 +474,12 @@
             body: JSON.stringify({ email, password }),
           });
 
-          const data = await res.json();
+          let data = {};
+          try {
+            data = await res.json();
+          } catch (jsonErr) {
+            data = { message: `Server error (${res.status})` };
+          }
 
           if (res.ok) {
             localStorage.setItem('token', data.token);
@@ -487,7 +492,8 @@
             showToast(data.message || 'Invalid email or password', 'error');
           }
         } catch (e) {
-          showToast('Server connection failed. Is the server running?', 'error');
+          console.error('Login error:', e);
+          showToast('Connection error: ' + (e.message || 'Check network'), 'error');
         } finally {
           btn.disabled = false;
           btn.innerHTML = `<span>Sign In to Sakura</span>`;

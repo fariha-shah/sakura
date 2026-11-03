@@ -503,7 +503,12 @@
             body: JSON.stringify({ fullName, username, email, password }),
           });
 
-          const data = await res.json();
+          let data = {};
+          try {
+            data = await res.json();
+          } catch (jsonErr) {
+            data = { message: `Server error (${res.status})` };
+          }
 
           if (res.ok) {
             localStorage.setItem('token', data.token);
@@ -516,7 +521,8 @@
             showToast(data.message || 'Registration failed', 'error');
           }
         } catch (e) {
-          showToast('Server connection failed. Is the backend running?', 'error');
+          console.error('Registration error:', e);
+          showToast('Connection error: ' + (e.message || 'Check network'), 'error');
         } finally {
           btn.disabled = false;
           btn.innerHTML = `<span>Create My Account</span>`;
